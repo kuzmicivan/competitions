@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Korisnici {
+    KorisnikID       Int       @id @default(autoincrement())
+    Auth0ID          String    @unique
+    ImeKorisnika     String
+    EmailKorisnika   String    @unique
+    Natjecanja       Natjecanja[]
+}
+
+model Natjecanja {
+    NatjecanjeID         Int           @id @default(autoincrement())
+    NazivNatjecanja      String
+    SustavBodovanja      String
+    StvarateljID         Int
+    PoveznicaNatjecanja  String        @unique
+    Stvaratelj           Korisnici     @relation(fields: [StvarateljID], references: [KorisnikID])
+    Natjecatelji         Natjecatelji[]
+    Rezultati            Rezultati[]
+}
+
+model Natjecatelji {
+    NatjecateljID    Int        @id @default(autoincrement())
+    NatjecanjeID     Int
+    ImeNatjecatelja  String
+    Natjecanje       Natjecanja @relation(fields: [NatjecanjeID], references: [NatjecanjeID])
+    Rezultati1       Rezultati[] @relation("RezultatiNatjecatelj1")
+    Rezultati2       Rezultati[] @relation("RezultatiNatjecatelj2")
+}
+
+model Rezultati {
+    RezultatID         Int          @id @default(autoincrement())
+    NatjecanjeID       Int
+    Kolo               Int
+    Natjecatelj1ID     Int
+    Natjecatelj2ID     Int
+    RezultatNatjecatelj1 Int?
+    RezultatNatjecatelj2 Int?
+    Natjecanje         Natjecanja   @relation(fields: [NatjecanjeID], references: [NatjecanjeID])
+    Natjecatelj1       Natjecatelji @relation(fields: [Natjecatelj1ID], references: [NatjecateljID], name: "RezultatiNatjecatelj1")
+    Natjecatelj2       Natjecatelji @relation(fields: [Natjecatelj2ID], references: [NatjecateljID], name: "RezultatiNatjecatelj2")
+}
