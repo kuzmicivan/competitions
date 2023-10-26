@@ -2,9 +2,11 @@
 
 import { CompetitionEntryFormData } from "@/types/competitionEntry";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import React, { useCallback, useState } from "react";
 
 const CompetitionEntryBox: React.FC = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState<CompetitionEntryFormData>({
     competitionName: "",
     participants: "",
@@ -39,9 +41,7 @@ const CompetitionEntryBox: React.FC = () => {
         scoringSystem: formData.scoringSystem
     }
 
-    console.log("postData", postData)
-
-    axios.post("/api/competitions", postData).then((res) => console.log("res", res));
+    axios.post("/api/competitions", postData).then((res) => router.push("/"));
   }, [formData])
 
 

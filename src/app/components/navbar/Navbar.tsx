@@ -6,7 +6,7 @@ import ProfileClient from '../profileClient/profileClient';
 
 export default function Navbar() {
   return (
-      <div className='fixed w-full bg-blue-800 h-20 flex items-center justify-end'>
+      <div className='fixed w-full bg-blue-800 h-20 flex items-center justify-end px-14'>
         <ProfileClient />
       </div>
   );
