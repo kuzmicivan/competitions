@@ -14,10 +14,8 @@ export default function CompetitionsContainer() {
     axios
       .get("/api/competitions")
       .then((response) => {
-        console.log("response", response);
         setCompetitions(response.data);
       })
-      .catch((error) => console.log("getCompetitions", error));
   }, []);
 
   useEffect(() => {
@@ -30,7 +28,7 @@ export default function CompetitionsContainer() {
         <div className="text-2xl font-bold"> Natjecanja</div>
         <Link href="/natjecanja/dodaj">
           <div className="flex items-center gap-1 bg-blue-800 hover:bg-blue-700 hover:text-white text-slate-100 px-4 py-2 rounded-md">
-            <PlusCircleIcon className="h-4 w-4 " />
+            <PlusCircleIcon className="h-6 w-6" />
             Dodaj
           </div>
         </Link>

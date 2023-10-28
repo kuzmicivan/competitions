@@ -16,28 +16,43 @@ export interface RezultatiSNatjecateljima extends Rezultati {
   Natjecatelj2: Natjecatelji;
 }
 
+export interface NatjecateljSBodovima extends Natjecatelji {
+  totalPoints: number;
+}
+
 export default function Page({ params }: { params: { natjecanjeId: string } }) {
 
   const [competition, setCompetition] = useState<CompetititonWithResultsAndCreator | null>(null);
+  const [results, setResults] = useState<NatjecateljSBodovima[]>([]);
+  const [updateTrigger, setUpdateTrigger] = useState(0);
 
-  const getCompetitions = useCallback(async (natjecanjeId: string) => {
+
+  const getCompetition = useCallback(async (natjecanjeId: string) => {
     axios
       .get(`/api/competitions/${natjecanjeId}`)
       .then((response) => {
-        console.log("response", response)
         setCompetition(response.data);
       })
-      .catch((error) => console.log("getCompetitions", error));
+  }, []);
+
+  const getResults = useCallback(async (natjecanjeId: string) => {
+    axios
+      .get(`/api/competitions/${natjecanjeId}/results`)
+      .then((response) => {
+        setResults(response.data);
+      })
   }, []);
 
   useEffect(() => {
-    if (params.natjecanjeId)
-    getCompetitions(params.natjecanjeId);
-  }, [getCompetitions, params.natjecanjeId]);
+    if (params.natjecanjeId){
+    getCompetition(params.natjecanjeId);
+    getResults(params.natjecanjeId);
+  }
+  }, [getCompetition, getResults, params.natjecanjeId, updateTrigger]);
 
   return (
     <div className="flex justify-center w-full">
-        {competition && <Competition competition={competition}/>}
+        {competition && <Competition competition={competition} results={results}  triggerUpdate={() => setUpdateTrigger(updateTrigger + 1)}/>}
     </div>
   )
 }

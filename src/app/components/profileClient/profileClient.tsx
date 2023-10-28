@@ -11,7 +11,7 @@ export default function ProfileClient() {
   const [isUserInfoVisible, setIsUserInfoVisible] = useState(false);
   const userInfoRef = useRef(null);
 
-  const handleClickOutside = (event) => {
+  const handleClickOutside = (event: MouseEvent) => {
     if (userInfoRef.current && !userInfoRef.current.contains(event.target)) {
       setIsUserInfoVisible(false);
     }
@@ -40,7 +40,7 @@ export default function ProfileClient() {
               src={user.picture}
               alt={user.name}
               className="w-8 h-8 rounded-full hover:border hover:border-white"
-              onClick={() => toggleUserInfoVisible(true)}
+              onClick={() => toggleUserInfoVisible()}
             />
             {isUserInfoVisible && (
               <div className="absolute top-10 right-1 bg-gray-800 py-2 px-4 rounded flex flex-col justify-center items-center gap-1">
