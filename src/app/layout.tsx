@@ -8,8 +8,9 @@ import Navbar from './components/navbar/Navbar'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Natjecanja',
-  description: 'Natjecanja',
+  title: 'Diary',
+  description: 'Diary',
+  manifest: "/manifest.json",
 }
 
 export default function RootLayout({
